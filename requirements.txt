@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+langchain
+chromadb
+requests
+python-dotenv
+httpx
+tiktoken
+sentence-transformers
+google-generativeai
