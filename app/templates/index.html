@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UC AI Chatbot</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="background">
+  <h1>UC AI Chatbot</h1>
+
+  <div class="chatbot-icon" onclick="toggleChat()">
+    🤖
+  </div>
+
+  <div id="chat-container" class="chat-hidden">
+    <form method="post" action="/ask" class="chat-form">
+      <input type="text" name="question" placeholder="Ask me anything about UC..." required autofocus>
+      <button type="submit">Ask</button>
+    </form>
+
+    {% if question %}
+    <div class="response-box">
+      <p><strong>You asked:</strong> {{ question }}</p>
+      <p><strong>Bot says:</strong> {{ response }}</p>
+      <div class="rating">
+        <span>👍</span>
+        <span>👎</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  function toggleChat() {
+    const chat = document.getElementById('chat-container');
+    chat.classList.toggle('chat-hidden');
+  }
+</script>
+</body>
+</html>
