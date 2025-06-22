@@ -8,3 +8,4 @@ httpx
 tiktoken
 sentence-transformers
 google-generativeai
+langchain-community
