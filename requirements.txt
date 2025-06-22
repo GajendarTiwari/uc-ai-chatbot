@@ -9,3 +9,4 @@ tiktoken
 sentence-transformers
 google-generativeai
 langchain-community
+langchain-huggingface
