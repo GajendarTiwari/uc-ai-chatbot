@@ -1,27 +1,35 @@
-import os
-from fastapi import FastAPI, Form, Request
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
 from models.query_llm import get_llm_answer
 
-app = FastAPI(title="UC AI Chatbot (Optimized)")
+app = FastAPI()
 
-BASE_DIR = os.path.dirname(__file__)
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+# Mount static folder if you have images or CSS
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Set up templates directory
+templates = Jinja2Templates(directory="templates")
+
 
 @app.get("/", response_class=HTMLResponse)
-async def read_index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+async def serve_homepage():
+    return FileResponse("templates/index.html")
+
 
 @app.post("/ask", response_class=HTMLResponse)
-async def ask_question(request: Request, question: str = Form(...)):
-    text = question.strip().lower()
-    if text in {"hi", "hello", "hey", "hi there"}:
-        answer = "👋 Hello Bearcat! How can I help you today?"
-    else:
-        answer = await get_llm_answer(question)
+async def ask_question(request: Request, user_question: str = Form(...)):
+    try:
+        # Get the answer from your Gemini / LLM logic
+        bot_answer = get_llm_answer(user_question)
+    except Exception as e:
+        bot_answer = f"An error occurred: {str(e)}"
 
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "question": question, "response": answer},
-    )
+    # Render the HTML template again with the answer
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "user_question": user_question,
+        "bot_answer": bot_answer
+    })
