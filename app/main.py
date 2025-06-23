@@ -5,28 +5,33 @@ from fastapi.templating import Jinja2Templates
 import os
 from pathlib import Path
 
-from models.query_llm import get_llm_answer  # Make sure this import path is correct
+from models.query_llm import get_llm_answer
 
 app = FastAPI()
 
-# Define base directory (app/)
+# Base directory (app/)
 BASE_DIR = Path(__file__).resolve().parent
 
-# Mount static directory (app/static)
+# Mount static folder
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
-# Set templates directory (app/templates)
+# Load templates
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 @app.get("/", response_class=HTMLResponse)
-async def serve_home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "response": ""})
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/ask", response_class=HTMLResponse)
-async def ask_question(request: Request, user_input: str = Form(...)):
+async def ask(request: Request, question: str = Form(...)):
     try:
-        # Call your LLM or vector search logic here
-        response = await get_llm_answer(user_input)
+        answer = await get_llm_answer(question)
     except Exception as e:
-        response = f"❌ Error processing request: {str(e)}"
-    return templates.TemplateResponse("index.html", {"request": request, "response": response})
+        print("❌ Error from get_llm_answer:", e)
+        answer = "⚠️ Sorry, something went wrong."
+    
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "question": question,
+        "response": answer
+    })
