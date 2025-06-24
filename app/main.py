@@ -2,21 +2,14 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import os
-from pathlib import Path
-
-from models.query_llm import get_llm_answer
+import asyncio
+from app.models.query_llm import get_llm_answer
 
 app = FastAPI()
 
-# Base directory (app/)
-BASE_DIR = Path(__file__).resolve().parent
-
-# Mount static folder
-app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
-
-# Load templates
-templates = Jinja2Templates(directory=BASE_DIR / "templates")
+# Mount static folder properly (use absolute path for Render)
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+templates = Jinja2Templates(directory="app/templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -24,14 +17,14 @@ async def home(request: Request):
 
 @app.post("/ask", response_class=HTMLResponse)
 async def ask(request: Request, question: str = Form(...)):
-    try:
-        answer = await get_llm_answer(question)
-    except Exception as e:
-        print("❌ Error from get_llm_answer:", e)
-        answer = "⚠️ Sorry, something went wrong."
-    
+    response = await get_llm_answer(question)
     return templates.TemplateResponse("index.html", {
         "request": request,
         "question": question,
-        "response": answer
+        "response": response
     })
+
+# Needed to run locally and for explicit Render startup command
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="0.0.0.0", port=10000)
