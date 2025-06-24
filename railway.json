@@ -1,8 +1,0 @@
-{
-  "build": {
-    "env": {
-      "GOOGLE_API_KEY": "@google-api-key"
-    }
-  },
-  "start": "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
-}
