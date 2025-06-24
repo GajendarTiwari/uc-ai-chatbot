@@ -3,7 +3,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import asyncio
-from app.models.query_llm import get_llm_answer
+from models.query_llm import get_llm_answer
+
 
 app = FastAPI()
 
