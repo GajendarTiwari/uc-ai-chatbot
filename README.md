@@ -30,8 +30,30 @@ The **UC AI Chatbot** is a full-stack AI application designed to provide intelli
 ---
 
 ## 🏗️ Architecture
+uc-ai-chatbot/
+├── app/
+│   ├── main.py               # FastAPI app with web routes
+│   ├── templates/
+│   │   └── index.html        # Frontend chat UI
+│   └── static/
+│       └── style.css         # Chatbot styling
+│
+├── crawler/
+│   ├── crawler.py            # UC website scraper
+│   └── data/
+│       └── pages/            # Scraped HTML content
+│
+├── embeddings/
+│   └── embedder.py           # Chroma vector DB creation
+│
+├── models/
+│   └── query_llm.py          # LLM QA chain setup
+│
+├── .env                      # API keys and config
+├── requirements.txt          # Python dependencies
+├── render.yaml               # Render deployment configuration (optional)
+└── README.md                 # You’re here!
 
-<pre> uc-ai-chatbot/ │ ├── app/ │ ├── main.py # FastAPI app with web routes │ ├── templates/ │ │ └── index.html # Frontend chat UI │ └── static/ │ └── style.css # Chatbot styling │ ├── crawler/ │ ├── crawler.py # UC website scraper │ └── data/ │ └── pages/ # Scraped HTML content │ ├── embeddings/ │ └── embedder.py # Chroma vector DB creation │ ├── models/ │ └── query_llm.py # LLM QA chain setup │ ├── .env # API keys and config ├── requirements.txt # Python dependencies ├── render.yaml # Render deployment configuration (optional) └── README.md # You’re here! </pre>
 ## ⚙️ Technologies Used
 
 | Category       | Tools/Frameworks                          |
@@ -60,14 +82,23 @@ If you're deploying on Render, include render.yaml.
 If using Vercel or Railway, configure build and start scripts in your dashboard or via vercel.json.
  
 ✅ Status & Limitations
+
 ✅ Backend + LLM pipeline complete
+
 ✅ Frontend chat UI working
+
 ⚠️ Deployment may exceed free-tier limits on Render or Railway due to LLM + embedding model size
 
 📚 Skills Demonstrated
+
 🔧 Backend API Development (FastAPI)
+
 🤖 LLM Integration (Google Gemini Flash 1.5 via LangChain)
+
 📊 Semantic Search & Vector DB (Chroma)
+
 🧠 Prompt Engineering & RetrievalQA Chains
+
 💻 Full-stack system design with modular folder structure
+
 🛠️ Deployment Readiness (Render, Vercel, Railway)
