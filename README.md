@@ -30,29 +30,31 @@ The **UC AI Chatbot** is a full-stack AI application designed to provide intelli
 ---
 
 ## 🏗️ Architecture
+```
 uc-ai-chatbot/
 ├── app/
-│   ├── main.py               # FastAPI app with web routes
-│   ├── templates/
-│   │   └── index.html        # Frontend chat UI
-│   └── static/
-│       └── style.css         # Chatbot styling
+│ ├── main.py # FastAPI app with web routes
+│ ├── templates/
+│ │ └── index.html # Frontend chat UI
+│ └── static/
+│ └── style.css # Chatbot styling
 │
 ├── crawler/
-│   ├── crawler.py            # UC website scraper
-│   └── data/
-│       └── pages/            # Scraped HTML content
+│ ├── crawler.py # UC website scraper
+│ └── data/
+│ └── pages/ # Scraped HTML content
 │
 ├── embeddings/
-│   └── embedder.py           # Chroma vector DB creation
+│ └── embedder.py # Chroma vector DB creation
 │
 ├── models/
-│   └── query_llm.py          # LLM QA chain setup
+│ └── query_llm.py # LLM QA chain setup
 │
-├── .env                      # API keys and config
-├── requirements.txt          # Python dependencies
-├── render.yaml               # Render deployment configuration (optional)
-└── README.md                 # You’re here!
+├── .env # API keys and config
+├── requirements.txt # Python dependencies
+├── render.yaml # Render deployment configuration (optional)
+└── README.md # You’re here!
+```
 
 ## ⚙️ Technologies Used
 
